@@ -5,7 +5,7 @@
 /**
  * 
  * @param {Array} arr 
- * @param {Number} limit 限制任务数量
+ * @param {Number} limit 限制任务数
  * @param {Function} fn 
  */
 function promiseLimit(arr,limit,fn){
