@@ -67,3 +67,21 @@ linkList.prototype = {
         }
     }
 }
+
+
+/**
+ * 链反转
+ */
+function reverseList(node){
+    if(node){
+        let arr = []
+        while(node){
+            arr.unshift(node)
+            node = node.next
+        }
+        for(let i = 0;i<arr.length;i++){
+            arr[i].next=arr[i+1]
+        }
+        return arr[0]
+    }
+}
