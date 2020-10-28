@@ -1,4 +1,4 @@
-// Promise的实现 （订阅发布模型）
+// 一. Promise的实现 （订阅发布模型）https://zhuanlan.zhihu.com/p/58428287
 /**
  * 1.极简版本
  */
@@ -89,3 +89,93 @@ class Promise {
         this.callbacks.forEach(fn=>fn(value))
     }
 }
+
+//////////////////////////////////////////////
+// 二.  Promise 的链式调用 https://zhuanlan.zhihu.com/p/102017798 
+/**
+ *  一中的留下的坑，then中返回的是this，应该要返回新的 Promise
+ *  1.
+ */
+class Promise{
+    callbacks = []
+    status = 'pending'
+    value = null
+    constructor(fn){
+        fn(this._resolve.bind(this))
+    }
+    then(onFulfilled){
+        return new Promise(resolve=>{
+            this._handle({
+                onFulfilled:onFulfilled||null,
+                resolve:resolve
+            })
+        })
+    }
+    _handle(callback){
+        if(this.status === 'pending'){
+            this.callbacks.push(callback)
+            return
+        }
+        // then中没有传参数的情况
+        if(!callback.onFulfilled){
+            callback.resolve(this.value)
+            return
+        }
+        const ret = callback.onFulfilled(this.value)
+        callback.resolve(ret)
+    }
+    _resolve(value){
+        this.status = 'fulfilled'
+        this.value = value
+        this.callbacks.forEach(callback=>this._handle(callback))
+    }
+}
+/**
+ * 上面1.中值适合 ononFulfilled返回值为 value情况
+ * onFulfilled返回值为 Promise的情况 需要在 _resolve中判断并处理
+ * (对 resolve 中的值作了一个特殊的判断，判断 resolve 的值是否为 Promise实例，如果是 Promise 实例，
+ * 那么就把当前 Promise 实例的状态改变接口重新注册到 resolve 的值对应的 Promise 的 onFulfilled 中，
+ * 也就是说当前 Promise 实例的状态要依赖 resolve 的值的 Promise 实例的状态)
+ */
+
+ class Promise{
+     callbacks = []
+     status = 'pending'
+     value =null
+     constructor(fn){
+         fn(this._resolve.bind(this))
+     }
+     then(onFulfilled){
+        return new Promise(resolve=>{
+            this._handle({
+                onFulfilled:onFulfilled || null,
+                resolve:resolve
+            })
+        })
+     }
+     _handle(callback){
+         if(this.status === 'pending'){
+             this.callbacks.push(callback)
+             return
+         }
+         if(!callback.onFulfilled){
+             callback.resolve(this.value)
+             return
+         }
+         const ret = callback.onFulfilled(this.value)
+         callback.resolve(ret)
+     }
+     _resolve(value){
+         // 判断前一个Promise的 onFulfilled的返回值
+         if(value &&(typeof value === 'object' || typeof value === 'function')){
+             const then = value.then
+             if(typeof then === 'function'){
+                 then.call(value,this._resolve.bind(this))
+                 return
+             }
+         }
+         this.status = 'fulfilled'
+         this.value = value
+         this.callbacks.forEach(callback=>this._handle(callback))
+     }
+ }
