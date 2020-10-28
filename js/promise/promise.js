@@ -181,7 +181,7 @@ class Promise{
  }
 
  //////////////////////////////////////////////////////////
- // Promise原型方法实现
+ // 三.Promise原型方法实现
  /**
   * reject 和 resolve状态分离
   */
@@ -256,3 +256,136 @@ class Promise{
          )
      }
  }
+
+ //////////////////////////////////////
+ // 四. Promise 静态方法
+ /**
+  * resolve reject all race
+  */
+ class Promise{
+    callbacks = []
+    status = 'pending'
+    value = null
+    constructor(fn){
+        fn(ths._resolve.bind(this),this._reject.bind(this))
+    }
+    then(onFulfilled,onRejected){
+        return new Promise((resolve,reject)=>{
+            this._handle({
+                onFulfilled:onFulfilled||null,
+                onRejected: onRejected || null,
+                resolve: resolve,
+                reject: reject,
+            })
+        })
+    }
+    _handle(callback){
+        if(this.status === 'pending'){
+            this.callbacks.push(callback)
+            return
+        }
+        let cb = this.status === 'fulfilled'? callback.onFulfilled :callback.onRejected;
+        if(!cb){
+            cb = this.status === 'fulfilled'? callback.resolve:callback.reject
+            cb(this.value)
+            return
+        }
+       //  const ret = cb(this.value)
+       //  cb = this.status === 'fulfilled'? callback.resolve:callback.reject
+       //  cb(ret)
+       let ret;
+       try{
+           ret = cb(this.value)
+           cb = this.status === 'fulfilled'? callback.resolve:callback.reject 
+       }catch(error){
+           ret = error
+           cb = callback.reject
+       }finally{
+           cb(ret)
+       }
+    }
+    _resolve(value){
+        if(value && (typeof value === 'object' || typeof value === 'function')){
+            const then = value.then
+            if(typeof then === 'function'){
+                then.call(value,this._resolve.bind(this),this._reject.bind(this))
+                return
+            }
+        }
+        this.status = 'fulfilled'
+        this.value = value
+        this.callbacks.forEach(callback=>this._handle(callback))
+    }
+    _reject(error){
+        this.status = 'rejected'
+        this.value = error;
+        this.callbacks.forEach(callback=>this._handle(callback))
+    }
+    catch(onError){
+        return this.then(null,onError)
+    }
+    finally(onDone){
+        if(typeof onDone !=='function') return this.then();
+        let Promise = this.constructor;
+        return this.then(
+            value=>Promise.resolve(onDone()).then(()=>value),
+            reason=> Promise.resolve(onDone()).then(()=>{ throw reason})
+        )
+    }
+    static resolve(value){
+        //1.value为promise 直接返回 value
+        //2. value 为 thenable 把value转为Promise对象，然后立即执行thenable对象的then方法
+        //3.参数不是具有 then 方法的对象，或根本就不是对象 返回 一个新的 Promise 对象，状态为 resolved
+        //4.不带任何参数 直接返回一个 resolved 状态的 Promise 对象
+        if(value && value instanceof Promise){
+            return value
+        }else if(value && typeof value === 'object' && typeof value.then ==='function'){
+            let then = value.then
+            return new Promise(resolve=>{
+                then(resolve)
+            })
+        }else if (value){
+            return new Promise(resolve=>resolve(value))
+        }else{
+            return new Promise(resolve=>resolve())
+        }
+    }
+    static reject(value){
+        if(value && typeof value === 'object' && typeof value.then === 'function'){
+            let then = value.then
+            return new Promise((resolve,reject)=>{
+                then(reject)
+            })
+        }else{
+            return new Promise((resolve,reject)=>reject(value))
+        }
+
+    }
+    static all(promises){
+        return new Promise((reslove,reject)=>{
+            let fulfilledCount =0
+            const itemNum = promises.length
+            const rets = Array.from({length:itemNum})
+            promises.forEach((promise,index)=>{
+                Promise.resolve(promise).then(result=>{
+                    fulfilledCount++;
+                    rets[index] = result
+                    if(fulfilledCount === itemNum){
+                        resolve(rets)
+                    }
+                },reason=>reject(reason))
+            })
+        })
+    }
+    static race(promises){
+        return new Promise((resolve,reject)=>{
+            for(let i = 0; i<promises.length;i++){
+                Promise.resolve(promises[i]).then(value=>{
+                    return resolve(value)
+                },reason=>{
+                    return reject(reason)
+                })
+            }
+        })
+    }
+}
