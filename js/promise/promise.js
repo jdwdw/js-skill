@@ -179,3 +179,80 @@ class Promise{
          this.callbacks.forEach(callback=>this._handle(callback))
      }
  }
+
+ //////////////////////////////////////////////////////////
+ // Promise原型方法实现
+ /**
+  * reject 和 resolve状态分离
+  */
+ class Promise{
+     callbacks = []
+     status = 'pending'
+     value = null
+     constructor(fn){
+         fn(ths._resolve.bind(this),this._reject.bind(this))
+     }
+     then(onFulfilled,onRejected){
+         return new Promise((resolve,reject)=>{
+             this._handle({
+                 onFulfilled:onFulfilled||null,
+                 onRejected: onRejected || null,
+                 resolve: resolve,
+                 reject: reject,
+             })
+         })
+     }
+     _handle(callback){
+         if(this.status === 'pending'){
+             this.callbacks.push(callback)
+             return
+         }
+         let cb = this.status === 'fulfilled'? callback.onFulfilled :callback.onRejected;
+         if(!cb){
+             cb = this.status === 'fulfilled'? callback.resolve:callback.reject
+             cb(this.value)
+             return
+         }
+        //  const ret = cb(this.value)
+        //  cb = this.status === 'fulfilled'? callback.resolve:callback.reject
+        //  cb(ret)
+        let ret;
+        try{
+            ret = cb(this.value)
+            cb = this.status === 'fulfilled'? callback.resolve:callback.reject 
+        }catch(error){
+            ret = error
+            cb = callback.reject
+        }finally{
+            cb(ret)
+        }
+     }
+     _resolve(value){
+         if(value && (typeof value === 'object' || typeof value === 'function')){
+             const then = value.then
+             if(typeof then === 'function'){
+                 then.call(value,this._resolve.bind(this),this._reject.bind(this))
+                 return
+             }
+         }
+         this.status = 'fulfilled'
+         this.value = value
+         this.callbacks.forEach(callback=>this._handle(callback))
+     }
+     _reject(error){
+         this.status = 'rejected'
+         this.value = error;
+         this.callbacks.forEach(callback=>this._handle(callback))
+     }
+     catch(onError){
+         return this.then(null,onError)
+     }
+     finally(onDone){
+         if(typeof onDone !=='function') return this.then();
+         let Promise = this.constructor;
+         return this.then(
+             value=>Promise.resolve(onDone()).then(()=>value),
+             reason=> Promise.resolve(onDone()).then(()=>{ throw reason})
+         )
+     }
+ }
