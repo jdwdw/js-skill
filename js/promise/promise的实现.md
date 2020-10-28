@@ -1,4 +1,5 @@
 https://zhuanlan.zhihu.com/p/58428287
+https://zhuanlan.zhihu.com/p/21834559
 https://mengera88.github.io/2017/05/18/Promise%E5%8E%9F%E7%90%86%E8%A7%A3%E6%9E%90/
 
 主要的点是
@@ -47,3 +48,6 @@ pending fulfilled (rejected)
         this.callbacks.forEach(callback => this._handle(callback));
     }
 ``````
+
+````
+````
