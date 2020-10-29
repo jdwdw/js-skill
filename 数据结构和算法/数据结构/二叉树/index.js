@@ -120,7 +120,7 @@ function isInBST(root,target){
         // 获取左节点树最大点或者右节点树最小节点来替代自己
         const minNode = getMin(root.right)
         root.val = minNode.val
-        root.right = deleteNode(minNode)
+        root.right = deleteNode(root.right,minNode.val)
 
      }
      if(root.val<target){
