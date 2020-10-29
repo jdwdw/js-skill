@@ -71,7 +71,7 @@ function isBST(root){
 function help(root,min,max){
     if(root === null) return true
     if( min !== null && root.val <= min.val) return false
-    if(max !== null && root.val >= max.val) return true 
+    if(max !== null && root.val >= max.val) return false 
     return help(root.left,min,root)&&help(root.right,root,max)
 }
 
