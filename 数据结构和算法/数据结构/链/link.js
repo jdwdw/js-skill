@@ -1,8 +1,10 @@
 //1.https://www.cnblogs.com/EganZhang/p/6594830.html
 //2.https://segmentfault.com/a/1190000017000988
+// 详细版的单链 http://ahuntsun.top/navitem/algorithm/theory/notes/3.html#_2-3-insert-position-element
+
 
 /**
- * @description 链表中的Node
+ * @description 简易版的链表中的Node
  * @param {*} val 
  */
 function Node(val){
@@ -68,6 +70,165 @@ linkList.prototype = {
     }
 }
 
+//------------------详细版单链--------------------------------//
+function LinkList(){
+    // 节点类
+    function Node(data){
+        this.data = data
+        this.next = null
+    }
+
+    // 属性
+    this.head = null
+    this.length = 0
+
+    //方法
+    //1. append方法 在后面添加  
+    LinkList.prototype.append = data =>{
+        let newNode = new Node(data)
+
+        //情况一只有一个节点
+        if(this.length === 0 ){
+            this.head = newNode
+        }else{
+            let current = this.head
+            while(current.next){
+                current = current.next
+            }
+            current.next = newNode
+        }
+        this.length +=1
+    }
+
+    //2. toString 方法
+    LinkList.prototype.toString = ()=>{
+        let current = this.head
+        let res = ''
+
+        while(current){
+            res += current.data + ' '
+            current = current.next
+        }
+        return res
+    }
+
+    // 3.  insert 方法 插入一个新节点
+    LinkList.prototype.insert = (position,data)=>{
+        //边界判断
+        if(position<0 || position>this.length){
+            return false
+        }
+
+        let newNode = new Node(data)
+
+        // 插在头
+        if(position == 0){
+            newNode.next = this.head
+            this.head = newNode
+        }else{
+            let index = 0
+            let previous = null
+            let current = this.head
+            // 插入时要找到前一个节点，去更改前一个节点的next
+            while(index < position){
+                previous = current
+                current = current.next
+                index++
+            }
+            newNode.next = current
+            previous.next = newNode
+        }
+        this.length +=1
+        return true
+    }
+
+    // 4. get方法
+    LinkList.prototype.get = (position)=>{
+        // 边界判断 
+        if(position<0 || position>= this.length){
+            return null
+        }
+
+        let current = this.head
+        let index = 0
+        while(index< position){
+            current = current.next
+            index++
+        }
+        return current.data
+    }
+
+    // 5. indexOf 方法
+    LinkList.prototype.indexOf = data=>{
+        let current = this.head
+        let index = 0
+
+        while(current){
+            if(current.data === data){
+                return index
+            }
+            current = current.next
+            index++
+        }
+        return -1
+    }
+
+    // 6. update 方法
+    LinkList.prototype.update = (position,NewData) =>{
+        // 边界
+        if(position<0 || position>this.length){
+            return false
+        }
+
+        let current = this.head
+        let index = 0
+
+        while(index<position){
+            current = current.next
+            index++
+        }
+        current.data = NewData
+        return true
+    }
+
+    // 7. removeAt
+    LinkList.prototype.removeAt = (position)=>{
+        // 边界
+        if(position<0 || position>=this.length){
+            return null
+        }
+
+        let current = this.head
+        if(position ==0){
+            this.head = this.head.next
+        }else{
+            let index = 0
+            let previous = null
+            while(index<position){
+                previous = current
+                current = current.next
+                index++
+            }
+            previous.next = current.next
+        }
+        this.length -=1
+        return current.data
+    }
+
+    // remove
+    LinkList.prototype.remove = data=>{
+        let position = this.indexOf(data)
+        return this.removeAt(position)
+    }
+    // isEmpty
+    LinkList.prototype.isEmpty=()=>{
+        return this.length === 0
+    }
+    // size
+    LinkList.prototype.size = ()=>{
+        return this.length
+    }
+}
 
 /**
  * 链反转（迭代方法）
