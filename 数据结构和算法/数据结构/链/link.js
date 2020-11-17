@@ -176,7 +176,7 @@ function LinkList(){
     // 6. update 方法
     LinkList.prototype.update = (position,NewData) =>{
         // 边界
-        if(position<0 || position>this.length){
+        if(position<0 || position>=this.length){
             return false
         }
 
@@ -277,7 +277,7 @@ function reverseList(node){
         return node
      }
 
-     const last = reverse(node,n-1)
+     const last = reverseN(node,n-1)
      node.next.next = node
      node.next = mapNode
      return last
