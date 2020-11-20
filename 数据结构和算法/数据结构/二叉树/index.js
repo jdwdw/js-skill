@@ -264,7 +264,7 @@ function isInBST(root,target){
             if(key<node.key){
                 node = node.left
             }else if(key>node.key){
-                node.right
+                node = node.right
             }else{
                 return true
             }
