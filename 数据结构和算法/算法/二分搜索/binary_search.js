@@ -72,3 +72,101 @@ function right_bound(nums,target){
     }
     return right
 }
+
+
+//--------------使用-----------------//
+// https://labuladong.gitbook.io/algo/shu-ju-jie-gou-xi-lie/2.5-shou-ba-shou-shua-shu-zu-ti-mu/koko-tou-xiang-jiao
+
+
+
+/**
+ * @description 875. 爱吃香蕉的珂珂
+ * https://leetcode-cn.com/problems/koko-eating-bananas/
+ * @param {number[]} piles
+ * @param {number} H
+ * @return {number}
+ */
+var minEatingSpeed = function(piles, H) {
+    const maxSpeed = Math.max(...piles)
+
+    // 1.暴力解法
+    // for(let i = 1;i<maxSpeed;i++){
+    //     if(canFinish(piles,i,H)){
+    //         return i
+    //     }
+    // }
+    // return maxSpeed
+
+    // 2. 二分查找解法
+    let left = 1
+    let right = maxSpeed
+    while(left<=right){
+        let mid = left + Math.floor((right-left)/2)
+        if(canFinish(piles,mid,H)){
+            right = mid -1
+        }else{
+            left = mid+1
+        }
+    }
+    if(left<1 ){
+        left = maxSpeed
+    }
+    return left
+
+};
+
+var canFinish = function(piles,speed,H){
+    let time = 0
+    piles.forEach(pile => {
+        time = time + ( Math.floor(pile/speed)) + (pile%speed ===0? 0:1 )
+    });
+    return time<=H
+}
+
+
+
+/**
+ * @description 1011. 在 D 天内送达包裹的能力
+ * https://leetcode-cn.com/problems/capacity-to-ship-packages-within-d-days/
+ * @param {number[]} weights
+ * @param {number} D
+ * @return {number}
+ */
+var shipWithinDays = function(weights, D) {
+    const minW = Math.max(...weights)
+    const maxW = weights.reduce((pre,cur)=>{
+        return pre + cur
+    })
+    let left = minW
+    let right = maxW
+    while(left<=right){
+        let mid = left + Math.floor((right-left)/2)
+        if(canFinish(weights,mid,D)){
+            right = mid -1
+        }else{
+            left = mid +1
+        }
+    }
+    if(left< minW){
+        left = maxW
+    }
+    return left
+
+};
+
+var canFinish = function(weights,mid,D){
+    let index = 0
+    for(let day = 0;day<D;day++){
+        let maxCap = mid
+        while( maxCap - weights[index]>=0){
+            maxCap = maxCap - weights[index]
+            index++
+            if(index === weights.length){
+                return true
+            }
+        }
+    }
+    return false
+}
+
+
