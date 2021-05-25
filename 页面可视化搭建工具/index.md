@@ -24,6 +24,11 @@
 
 3. https://github.com/ly525/luban-h5 （鲁班）
 
+4. https://github.com/livelyPeng/pl-drag-template (vue)
+   https://github.com/react-visual-design/react-visual-design (react)
+
+5. https://github.com/yangyuji/h5-factory
+    https://juejin.cn/post/6844903858401968136
 
 
 //-------- B端管理后台json配置搭建-------//
