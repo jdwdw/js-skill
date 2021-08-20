@@ -23,6 +23,8 @@ let p = new Promise(resolve=>{
     },2000);
 }).then((tip)=>{
     console.log('tip',tip);
+}).then((tip)=>{
+    console.log('tip1',tip);
 })
 
 /**
@@ -50,7 +52,7 @@ let p = new Promise(resolve=>{
 
  let p = new Promise(resolve => {
     console.log('同步执行');
-    resolve('同步执行');
+    resolve('异步执行');
 }).then(tip => {
     console.log('then1', tip);
 }).then(tip => {
@@ -131,7 +133,7 @@ class Promise{
     }
 }
 /**
- * 上面1.中值适合 ononFulfilled返回值为 value情况
+ * 上面1.中值适合 onFulfilled返回值为 value情况
  * onFulfilled返回值为 Promise的情况 需要在 _resolve中判断并处理
  * (对 resolve 中的值作了一个特殊的判断，判断 resolve 的值是否为 Promise实例，如果是 Promise 实例，
  * 那么就把当前 Promise 实例的状态改变接口重新注册到 resolve 的值对应的 Promise 的 onFulfilled 中，
