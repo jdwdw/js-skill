@@ -33,3 +33,5 @@
 
 //-------- B端管理后台json配置搭建-------//
 1.https://github.com/vipshop/ams （唯品会 ams）
+
+2.https://github.com/baidu/amis (百度 amis)

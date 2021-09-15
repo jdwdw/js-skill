@@ -31,3 +31,14 @@ https://github.com/woai3c/introduction-to-front-end-engineering
 
 简单写一个手脚架
 https://github.com/woai3c/Front-end-articles/issues/22
+
+
+样式相关
+https://github.com/tailwindlabs/tailwindcss （样式的包）
+
+学英文
+https://github.com/byoungd/English-level-up-tips-for-Chinese
+
+node
+https://github.com/nswbmw/N-blog (学习)
+https://github.com/nswbmw/node-in-debugging (调试)
