@@ -42,3 +42,10 @@ https://github.com/byoungd/English-level-up-tips-for-Chinese
 node
 https://github.com/nswbmw/N-blog (学习)
 https://github.com/nswbmw/node-in-debugging (调试)
+
+React
+https://github.com/BetaSu/just-react
+https://github.com/BetaSu/react-on-the-way
+
+技术机基础
+https://github.com/izackwu/TeachYourselfCS-CN/blob/master/TeachYourselfCS-CN.md
