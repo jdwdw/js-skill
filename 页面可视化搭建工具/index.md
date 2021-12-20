@@ -10,6 +10,7 @@
 
 低代码平台：
 1. https://github.com/taowen/awesome-lowcode （资源交流）
+2. https://github.com/rxdrag/
 
 拖拽生成
 1. https://github.com/nihaojob/DragLayout （react）

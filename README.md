@@ -47,5 +47,17 @@ React
 https://github.com/BetaSu/just-react
 https://github.com/BetaSu/react-on-the-way
 
+微前端
+https://github.com/a1029563229/blogs
+https://github.com/micro-zoe/micro-app
+https://github.com/bailicangdu/simple-micro-app (简约版的micro-app 学习使用的) 
+https://github.com/micro-zoe/micro-app/issues/17 （ 上面simple-micro-app 对应文章 ）
+
 技术机基础
 https://github.com/izackwu/TeachYourselfCS-CN/blob/master/TeachYourselfCS-CN.md
+
+ssr
+https://github.com/zhangyuang/ssr
+
+js游戏引擎
+https://github.com/eva-engine/eva.js
