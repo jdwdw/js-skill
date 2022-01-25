@@ -58,6 +58,24 @@ https://github.com/izackwu/TeachYourselfCS-CN/blob/master/TeachYourselfCS-CN.md
 
 ssr
 https://github.com/zhangyuang/ssr
+https://github.com/i5ting/The-Definitive-Guide-to-SSR  (狼叔 ssr指南)
 
 js游戏引擎
 https://github.com/eva-engine/eva.js
+
+内存泄漏检测工具
+https://github.com/nolanlawson/fuite
+
+监控
+https://github.com/clouDr-f2e/monitor
+https://github.com/woai3c/monitor-demo
+https://github.com/woai3c/Front-end-articles/issues/26
+
+WebAssembly
+https://github.com/mcuking/Awesome-WebAssembly-Applications
+
+rust
+https://github.com/sunface/rust-course
+
+pnpm (Fast, disk space efficient package manager -- 快速的，节省磁盘空间的包管理工具)
+https://github.com/pnpm/pnpm
