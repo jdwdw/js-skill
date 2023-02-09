@@ -11,7 +11,8 @@ https://github.com/amandakelake/blog
 https://github.com/FrontEndGitHub/FrontEndGitHub
 
 
-leetcode 解题
+leetcode 解题 算法
+https://github.com/krahets/hello-algo
 https://github.com/jiangshanmeta/meta
 
 
@@ -75,7 +76,24 @@ WebAssembly
 https://github.com/mcuking/Awesome-WebAssembly-Applications
 
 rust
+https://rustwiki.org/
 https://github.com/sunface/rust-course
+https://github.com/rust-lang-cn/rust-by-example-cn
 
 pnpm (Fast, disk space efficient package manager -- 快速的，节省磁盘空间的包管理工具)
 https://github.com/pnpm/pnpm
+
+前端知识图解
+https://github.com/tnfe/FEDiagram
+
+前端精读周刊。帮你理解最前沿、实用的技术
+https://github.com/ascoders/weekly
+
+react 原理
+https://github.com/7kms/react-illustration-series
+
+音视频流媒体权威资料整理
+https://github.com/0voice/audio_video_streaming
+
+无头浏览器相关
+https://github.com/microlinkhq/browserless  （browserless is an efficient way to interact with a headless browser built in top of Puppeteer.）
